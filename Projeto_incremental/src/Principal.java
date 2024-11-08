@@ -3,27 +3,38 @@ import java.util.Scanner;
 public class Principal {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        
+        System.out.println("Digite o nome do cliente:");
+        String nome = sc.nextLine();
+        
+        System.out.println("Digite o CPF do cliente:");
+        String cpf = sc.nextLine();
+        
+        System.out.println("Digite o CNPJ do cliente (se aplicável):");
+        String cnpj = sc.nextLine();
+        
+        System.out.println("Digite o e-mail do cliente:");
+        String email = sc.nextLine();
+        
+        System.out.println("Digite o telefone do cliente:");
+        String telefone = sc.nextLine();
+        
+   
+        Cliente cliente = new Cliente(nome, cpf, cnpj, email, telefone);
+        
+        
         Cartaodecretido c;
-
-        System.out.println("Bem-vindo ao sistema de criação de cartão de crédito!");
         System.out.println("Escolha uma opção para criar o cartão:");
         System.out.println("1 - Criar cartão com informações básicas");
         System.out.println("2 - Criar cartão com limite personalizado e cashback");
-
         int escolha = sc.nextInt();
 
         System.out.println("Digite o número do cartão:");
         int numero = sc.nextInt();
         sc.nextLine();  
 
-        System.out.println("Digite o nome do titular:");
-        String nomeTitular = sc.nextLine();
-
-        System.out.println("Digite o CPF do titular:");
-        String cpf = sc.nextLine(); // Coletando o CPF
-
         if (escolha == 1) {
-            c = new Cartaodecretido(numero, nomeTitular, cpf); 
+            c = new Cartaodecretido(numero, cliente);
         } else {
             System.out.println("Digite o limite de crédito:");
             double limite = sc.nextDouble();
@@ -31,9 +42,10 @@ public class Principal {
             System.out.println("Digite a taxa de cashback (%):");
             double taxaCashback = sc.nextDouble();
 
-            c = new Cartaodecretido(numero, nomeTitular, cpf, limite, taxaCashback); 
+            c = new Cartaodecretido(numero, cliente, limite, taxaCashback);
         }
 
+    
         int opcao;
         do {
             System.out.println("1 - Consultar Limite");
@@ -74,3 +86,4 @@ public class Principal {
         sc.close();
     }
 }
+

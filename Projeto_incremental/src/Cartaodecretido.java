@@ -1,32 +1,28 @@
 public class Cartaodecretido {
     private int numero;
-    private String nomeTitular;
-    private String cpf; 
     private double limite;
     private double totalFatura;
     private double taxaCashback; 
+    private Cliente cliente;  
 
-    
-    public Cartaodecretido(int numero, String nomeTitular, String cpf) {
+    public Cartaodecretido(int numero, Cliente cliente) {
         this.numero = numero;
-        this.nomeTitular = nomeTitular;
-        this.cpf = cpf; 
-        this.limite = 1000; 
+        this.cliente = cliente;
+        this.limite = 1000;  
         this.totalFatura = 0;
         this.taxaCashback = 0;
     }
 
-   
-    public Cartaodecretido(int numero, String nomeTitular, String cpf, double limite, double taxaCashback) {
+    
+    public Cartaodecretido(int numero, Cliente cliente, double limite, double taxaCashback) {
         this.numero = numero;
-        this.nomeTitular = nomeTitular;
-        this.cpf = cpf; 
+        this.cliente = cliente;
         this.limite = limite;
         this.totalFatura = 0;
         this.taxaCashback = taxaCashback;
     }
 
-    // Getters e setters
+    
     public int getNumero() {
         return numero;
     }
@@ -35,20 +31,12 @@ public class Cartaodecretido {
         this.numero = numero;
     }
 
-    public String getNomeTitular() {
-        return nomeTitular;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setNomeTitular(String nomeTitular) {
-        this.nomeTitular = nomeTitular;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public double getLimite() {
@@ -94,7 +82,7 @@ public class Cartaodecretido {
         }
     }
 
-   
+    
     public void realizarCompra(double valor, boolean aplicarCashback) {
         if (aplicarCashback && taxaCashback > 0) {
             if (valor <= getLimite()) {
