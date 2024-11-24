@@ -52,6 +52,7 @@ public class Principal {
             System.out.println("2 - Consultar Fatura");
             System.out.println("3 - Realizar compra básica");
             System.out.println("4 - Realizar compra com cashback");
+            System.out.println("5 - Exibir Histórico de Transações");
             System.out.println("0 - Sair");
 
             opcao = sc.nextInt();
@@ -72,6 +73,12 @@ public class Principal {
                     System.out.println("Digite o valor da compra:");
                     valor = sc.nextDouble();
                     c.realizarCompra(valor, true);
+                    break;
+                 case 5:
+                    System.out.println("Histórico de Transações:");
+                    for (Transacao transacao : c.getHistoricoDeTransacoes()) {
+                        System.out.println(transacao);
+                    }
                     break;
                 case 0:
                     System.out.println("Saindo do sistema...");

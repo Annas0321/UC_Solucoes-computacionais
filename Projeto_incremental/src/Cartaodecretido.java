@@ -1,9 +1,15 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Date;
+
+
 public class Cartaodecretido {
     private int numero;
     private double limite;
     private double totalFatura;
     private double taxaCashback; 
     private Cliente cliente;  
+    private List<Transacao> historicoDeTransacoes;
 
     public Cartaodecretido(int numero, Cliente cliente) {
         this.numero = numero;
@@ -11,6 +17,7 @@ public class Cartaodecretido {
         this.limite = 1000;  
         this.totalFatura = 0;
         this.taxaCashback = 0;
+        this.historicoDeTransacoes = new ArrayList<>();
     }
 
     
@@ -20,6 +27,7 @@ public class Cartaodecretido {
         this.limite = limite;
         this.totalFatura = 0;
         this.taxaCashback = taxaCashback;
+        this.historicoDeTransacoes = new ArrayList<>();
     }
 
     
@@ -70,12 +78,20 @@ public class Cartaodecretido {
     public double consultarTotalFatura() {
         return getTotalFatura();
     }
+    
+    public List<Transacao> getHistoricoDeTransacoes() { 
+        return historicoDeTransacoes;
+    }
 
     
     public void realizarCompra(double valor) {
         if (valor <= getLimite()) {
             setLimite(getLimite() - valor);
             setTotalFatura(getTotalFatura() + valor);
+            Transacao transacao = new Transacao(new Date(), valor, "Compra normal");
+            historicoDeTransacoes.add(transacao);
+        
+
             System.out.println("Compra realizada com sucesso!");
         } else {
             System.out.println("Você não possui limite necessário para essa compra.");
@@ -89,6 +105,9 @@ public class Cartaodecretido {
                 double cashback = valor * (taxaCashback / 100);
                 setLimite(getLimite() - valor + cashback);
                 setTotalFatura(getTotalFatura() + valor - cashback);
+                Transacao transacao = new Transacao(new Date(), valor, "Compra com cashback");
+                historicoDeTransacoes.add(transacao);
+
                 System.out.println("Compra com cashback realizada com sucesso! Cashback: R$" + cashback);
             } else {
                 System.out.println("Você não possui limite necessário para essa compra.");
