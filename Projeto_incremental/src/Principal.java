@@ -19,33 +19,33 @@ public class Principal {
         System.out.println("Digite o telefone do cliente:");
         String telefone = sc.nextLine();
         
-   
         Cliente cliente = new Cliente(nome, cpf, cnpj, email, telefone);
         
-        
-        Cartaodecretido c;
-        System.out.println("Escolha uma opção para criar o cartão:");
-        System.out.println("1 - Criar cartão com informações básicas");
-        System.out.println("2 - Criar cartão com limite personalizado e cashback");
-        int escolha = sc.nextInt();
+        System.out.println("Escolha o tipo de cartão:");
+        System.out.println("1 - Cartão Básico");
+        System.out.println("2 - Cartão Premium");
+        System.out.println("3 - Cartão Empresarial");
+        int tipoCartao = sc.nextInt();
 
         System.out.println("Digite o número do cartão:");
         int numero = sc.nextInt();
-        sc.nextLine();  
 
-        if (escolha == 1) {
-            c = new Cartaodecretido(numero, cliente);
-        } else {
-            System.out.println("Digite o limite de crédito:");
-            double limite = sc.nextDouble();
-
-            System.out.println("Digite a taxa de cashback (%):");
-            double taxaCashback = sc.nextDouble();
-
-            c = new Cartaodecretido(numero, cliente, limite, taxaCashback);
+        CartaoDeCredito c;
+        switch (tipoCartao) {
+            case 1:
+                c = new CartaoBasico(numero, cliente);
+                break;
+            case 2:
+                c = new CartaoPremium(numero, cliente);
+                break;
+            case 3:
+                c = new CartaoEmpresarial(numero, cliente);
+                break;
+            default:
+                c = new CartaoBasico(numero, cliente);
+                break;
         }
 
-    
         int opcao;
         do {
             System.out.println("1 - Consultar Limite");
@@ -53,6 +53,9 @@ public class Principal {
             System.out.println("3 - Realizar compra básica");
             System.out.println("4 - Realizar compra com cashback");
             System.out.println("5 - Exibir Histórico de Transações");
+            if (c instanceof CartaoEmpresarial) {
+                System.out.println("6 - Realizar compra parcelada");
+            }
             System.out.println("0 - Sair");
 
             opcao = sc.nextInt();
@@ -74,10 +77,19 @@ public class Principal {
                     valor = sc.nextDouble();
                     c.realizarCompra(valor, true);
                     break;
-                 case 5:
+                case 5:
                     System.out.println("Histórico de Transações:");
                     for (Transacao transacao : c.getHistoricoDeTransacoes()) {
                         System.out.println(transacao);
+                    }
+                    break;
+                case 6:
+                    if (c instanceof CartaoEmpresarial) {
+                        System.out.println("Digite o valor da compra:");
+                        valor = sc.nextDouble();
+                        System.out.println("Digite o número de parcelas:");
+                        int parcelas = sc.nextInt();
+                        ((CartaoEmpresarial) c).realizarCompraParcelada(valor, parcelas);
                     }
                     break;
                 case 0:
@@ -87,7 +99,6 @@ public class Principal {
                     System.out.println("Opção inválida");
                     break;
             }
-
         } while (opcao != 0);
 
         sc.close();

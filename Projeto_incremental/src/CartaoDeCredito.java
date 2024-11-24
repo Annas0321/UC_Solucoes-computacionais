@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Date;
 
 
-public class Cartaodecretido {
+public abstract class CartaoDeCredito {
     private int numero;
     private double limite;
     private double totalFatura;
@@ -11,17 +11,16 @@ public class Cartaodecretido {
     private Cliente cliente;  
     private List<Transacao> historicoDeTransacoes;
 
-    public Cartaodecretido(int numero, Cliente cliente) {
+    protected CartaoDeCredito(int numero, Cliente cliente) {
         this.numero = numero;
         this.cliente = cliente;
-        this.limite = 1000;  
+        this.limite = 1000;
         this.totalFatura = 0;
         this.taxaCashback = 0;
         this.historicoDeTransacoes = new ArrayList<>();
     }
-
     
-    public Cartaodecretido(int numero, Cliente cliente, double limite, double taxaCashback) {
+    protected CartaoDeCredito(int numero, Cliente cliente, double limite, double taxaCashback) {
         this.numero = numero;
         this.cliente = cliente;
         this.limite = limite;
@@ -29,7 +28,6 @@ public class Cartaodecretido {
         this.taxaCashback = taxaCashback;
         this.historicoDeTransacoes = new ArrayList<>();
     }
-
     
     public int getNumero() {
         return numero;
@@ -83,22 +81,18 @@ public class Cartaodecretido {
         return historicoDeTransacoes;
     }
 
-    
     public void realizarCompra(double valor) {
         if (valor <= getLimite()) {
             setLimite(getLimite() - valor);
             setTotalFatura(getTotalFatura() + valor);
             Transacao transacao = new Transacao(new Date(), valor, "Compra normal");
             historicoDeTransacoes.add(transacao);
-        
-
             System.out.println("Compra realizada com sucesso!");
         } else {
             System.out.println("Você não possui limite necessário para essa compra.");
         }
     }
 
-    
     public void realizarCompra(double valor, boolean aplicarCashback) {
         if (aplicarCashback && taxaCashback > 0) {
             if (valor <= getLimite()) {
@@ -107,13 +101,12 @@ public class Cartaodecretido {
                 setTotalFatura(getTotalFatura() + valor - cashback);
                 Transacao transacao = new Transacao(new Date(), valor, "Compra com cashback");
                 historicoDeTransacoes.add(transacao);
-
                 System.out.println("Compra com cashback realizada com sucesso! Cashback: R$" + cashback);
             } else {
                 System.out.println("Você não possui limite necessário para essa compra.");
             }
         } else {
-            realizarCompra(valor); 
+            realizarCompra(valor);
         }
     }
 }
